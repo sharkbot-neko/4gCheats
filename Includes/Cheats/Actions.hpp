@@ -10,5 +10,6 @@ namespace CTRPluginFramework
     using StringVector = std::vector<std::string>;
 
     void ExecuteAction(MenuEntry *entry);
+    void ExecuteEmotion(MenuEntry* entry);
 }
 #endif

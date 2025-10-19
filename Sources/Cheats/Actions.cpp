@@ -8,6 +8,8 @@ namespace CTRPluginFramework
     u32 actionID2;
     u32 actionID3;
 
+    u32 emotionID;
+
     void ExecuteAction(MenuEntry* entry) {
         Quest quest;
         Action action;
@@ -38,6 +40,27 @@ namespace CTRPluginFramework
 
         if (Controller::IsKeysPressed(L | DPadDown)) {
             action.RunAction(quest.GetQuestAddress(), actionID, actionID2, actionID3);
+        }
+    }
+
+    void ExecuteEmotion(MenuEntry* entry) {
+        Quest quest;
+        Action action;
+
+        if (!quest.InQuest()) {
+            return;
+        }
+
+        if (Controller::IsKeysPressed(R | DPadUp)) {
+            u32 _emotionID = 0;
+            Keyboard keyboard("エモーションIDを入力");
+            if (keyboard.Open(_emotionID) == 0) {
+                emotionID = _emotionID;
+            }
+        }
+
+        if (Controller::IsKeysPressed(R | DPadDown)) {
+            action.RunEmotion(quest.GetQuestAddress(), emotionID);
         }
     }
 }

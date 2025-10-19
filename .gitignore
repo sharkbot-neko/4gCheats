@@ -1,0 +1,9 @@
+/Build
+*.elf
+
+q.c
+
+/.vscode
+/.github
+
+/Assets

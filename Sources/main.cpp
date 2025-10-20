@@ -83,10 +83,18 @@ exit:
             MessageBox("UA", body)();
         });*/
 
+        MenuFolder *players = new MenuFolder("プレイヤー");
+        *players += new MenuEntry("お金変更", nullptr, MoneyChange);
+        menu += players;
+
         MenuFolder *action_codes = new MenuFolder("アクション");
         *action_codes += new MenuEntry("アクション実行", ExecuteAction, "上キーとLキーでid設定、\n下キーとLキーで実行。");
         *action_codes += new MenuEntry("エモート実行", ExecuteEmotion, "上キーとRキーでid設定、\n下キーとRキーで実行。");
         menu += action_codes;
+
+        MenuFolder *anti_cheat = new MenuFolder("アンチチート");
+        *anti_cheat += new MenuEntry("性別クラッシュ無効", nullptr, Anti_Gender_Crash);
+        menu += anti_cheat;
     }
 
     int     main(void)

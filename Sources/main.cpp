@@ -84,7 +84,14 @@ exit:
         });*/
 
         MenuFolder *players = new MenuFolder("プレイヤー");
-        *players += new MenuEntry("お金変更", nullptr, MoneyChange);
+        *players += new MenuEntry("所持金変更", nullptr, MoneyChange);
+
+        MenuFolder *appearance = new MenuFolder("見た目");
+
+        *appearance += new MenuEntry("プレイヤーを平らにするか", PlayerFlatten);
+
+        *players += appearance;
+
         menu += players;
 
         MenuFolder *action_codes = new MenuFolder("アクション");

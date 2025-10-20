@@ -1,18 +1,14 @@
-#ifndef CHEATS_H
-#define CHEATS_H
+#ifndef APPEARANCES_H
+#define APPEARANCES_H
 
 #include <CTRPluginFramework.hpp>
 #include "Helpers.hpp"
 #include "Unicode.h"
 
-#include "Cheats/Actions.hpp"
-#include "Cheats/AntiCheats.hpp"
-#include "Cheats/Appearances.hpp"
-#include "Cheats/Players.hpp"
-
 namespace CTRPluginFramework
 {
     using StringVector = std::vector<std::string>;
 
+    void PlayerFlatten(MenuEntry* entry);
 }
 #endif

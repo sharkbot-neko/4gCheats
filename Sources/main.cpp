@@ -85,6 +85,7 @@ exit:
 
         MenuFolder *players = new MenuFolder("プレイヤー");
         *players += new MenuEntry("所持金変更", nullptr, MoneyChange);
+        *players += new MenuEntry("性別変更", nullptr, GenderChnage);
         *players += new MenuEntry("スピード変更", SpeedHack);
 
         MenuFolder *appearance = new MenuFolder("見た目");

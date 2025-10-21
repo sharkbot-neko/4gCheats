@@ -85,6 +85,7 @@ exit:
 
         MenuFolder *players = new MenuFolder("プレイヤー");
         *players += new MenuEntry("所持金変更", nullptr, MoneyChange);
+        *players += new MenuEntry("スピード変更", SpeedHack);
 
         MenuFolder *appearance = new MenuFolder("見た目");
 
@@ -99,6 +100,11 @@ exit:
         *action_codes += new MenuEntry("エモート実行", ExecuteEmotion, "上キーとRキーでid設定、\n下キーとRキーで実行。");
         menu += action_codes;
 
+        MenuFolder *exploits = new MenuFolder("害悪");
+        *exploits += new MenuEntry("グループオーナー変更", nullptr, ChangeOwner);
+        *exploits += new MenuEntry("メンバーキック", nullptr, KickMember);
+        menu += exploits;
+
         MenuFolder *anti_cheat = new MenuFolder("アンチチート");
         *anti_cheat += new MenuEntry("性別クラッシュ無効", nullptr, Anti_Gender_Crash);
         menu += anti_cheat;
@@ -111,6 +117,10 @@ exit:
 
         // Synnchronize the menu with frame event
         menu->SynchronizeWithFrame(true);
+
+        menu->ShowWelcomeMessage(false);
+
+        OSD::Notify("Welcome to MonsterHunter 4G Plugin!");
 
         // Init our menu entries & folders
         InitMenu(*menu);

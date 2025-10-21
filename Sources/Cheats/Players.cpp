@@ -15,4 +15,9 @@ namespace CTRPluginFramework
             Process::Write32(0x083302AC, count);
         }
     }
+
+    void SpeedHack(MenuEntry* entry) {
+        Process::Write32(0x00B057BC, 0x40200000);
+        Process::Write32(0x00AFD8FC, 0x40000000);
+    }
 }

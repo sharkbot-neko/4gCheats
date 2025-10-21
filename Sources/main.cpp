@@ -102,7 +102,7 @@ exit:
 
         MenuFolder *exploits = new MenuFolder("害悪");
         *exploits += new MenuEntry("グループオーナー変更", nullptr, ChangeOwner);
-        *exploits += new MenuEntry("メンバーキック", nullptr, KickMember);
+        // *exploits += new MenuEntry("メンバーキック", nullptr, KickMember);
         menu += exploits;
 
         MenuFolder *anti_cheat = new MenuFolder("アンチチート");
@@ -112,8 +112,8 @@ exit:
 
     int     main(void)
     {
-        PluginMenu *menu = new PluginMenu("MonsterHunter 4G OLD", 1, 0, 0,
-                                            "モンスターハンター4Gのハッキングプラグインです。");
+        PluginMenu *menu = new PluginMenu("MonsterHunter 4G", 1, 0, 0,
+                                            "モンスターハンター4Gのハッキングプラグインです。\n今度はOLD3dsも、New3dsも対応させました。");
 
         // Synnchronize the menu with frame event
         menu->SynchronizeWithFrame(true);

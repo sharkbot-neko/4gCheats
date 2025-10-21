@@ -95,6 +95,10 @@ exit:
 
         menu += players;
 
+        MenuFolder *groups = new MenuFolder("グループ");
+        *groups += new MenuEntry("グループ参加制限", AntiJoin, "グループに参加できなくします。\nグループオーナーが使用してください。\n今のところオフはできません。");
+        menu += groups;
+
         MenuFolder *action_codes = new MenuFolder("アクション");
         *action_codes += new MenuEntry("アクション実行", ExecuteAction, "上キーとLキーでid設定、\n下キーとLキーで実行。");
         *action_codes += new MenuEntry("エモート実行", ExecuteEmotion, "上キーとRキーでid設定、\n下キーとRキーで実行。");

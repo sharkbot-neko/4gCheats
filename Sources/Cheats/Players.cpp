@@ -102,11 +102,10 @@ namespace CTRPluginFramework {
         }
     }
 
-    // スピードハック（即書き込み）
     void SpeedHack(MenuEntry* entry)
     {
         Process::Write32(0x00B057BC, 0x40200000);
         Process::Write32(0x00AFD8FC, 0x40000000);
     }
 
-} // namespace CTRPluginFramework
+}

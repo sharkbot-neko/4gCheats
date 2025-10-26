@@ -10,6 +10,8 @@ namespace CTRPluginFramework
     using StringVector = std::vector<std::string>;
 
     void MoneyChange(MenuEntry* entry);
+    void MoneyWhenUsing(MenuEntry* entry);
+    
     void GenderChnage(MenuEntry* entry);
     
     void SpeedHack(MenuEntry* entry);

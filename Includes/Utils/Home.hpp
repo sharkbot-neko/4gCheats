@@ -8,7 +8,7 @@
 
 class Home {
 public:
-    uint32_t GetGroupAddress();
+    uint32_t GetHomeAddress();
 };
 
 #endif // MYCLASS_HPP

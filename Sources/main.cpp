@@ -97,8 +97,12 @@ exit:
 
         menu += players;
 
-        MenuFolder *groups = new MenuFolder("グループ");
-        *groups += new MenuEntry("グループ参加制限", AntiJoin, "グループに参加できなくします。\nグループオーナーが使用してください。\n今のところオフはできません。");
+        MenuFolder *quests = new MenuFolder("クエスト");
+        *quests += new MenuEntry("壁抜け", WallBreak, "壁抜けをします。\n↑オン ↓オフ");
+        menu += quests;
+
+        MenuFolder *groups = new MenuFolder("集会所");
+        *groups += new MenuEntry("集会所参加制限", AntiJoin, "集会所に参加できなくします。\n集会所オーナーが使用してください。\n今のところオフはできません。");
         menu += groups;
 
         MenuFolder *action_codes = new MenuFolder("アクション");
@@ -107,13 +111,17 @@ exit:
         menu += action_codes;
 
         MenuFolder *exploits = new MenuFolder("害悪");
-        *exploits += new MenuEntry("グループオーナー変更", nullptr, ChangeOwner);
+        *exploits += new MenuEntry("集会所オーナー変更", nullptr, ChangeOwner);
         // *exploits += new MenuEntry("メンバーキック", nullptr, KickMember);
         menu += exploits;
 
         MenuFolder *anti_cheat = new MenuFolder("アンチチート");
         *anti_cheat += new MenuEntry("性別クラッシュ無効", nullptr, Anti_Gender_Crash);
         menu += anti_cheat;
+
+        MenuFolder *debug = new MenuFolder("デバッグコード");
+        *debug += new MenuEntry("ベースアドレスを取得", nullptr, getBaseAddress);
+        menu += debug;
     }
 
     int     main(void)

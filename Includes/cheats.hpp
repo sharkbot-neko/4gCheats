@@ -8,9 +8,11 @@
 #include "Cheats/Actions.hpp"
 #include "Cheats/AntiCheats.hpp"
 #include "Cheats/Appearances.hpp"
+#include "Cheats/Debugs.hpp"
 #include "Cheats/Exploits.hpp"
 #include "Cheats/Groups.hpp"
 #include "Cheats/Players.hpp"
+#include "Cheats/Quests.hpp"
 
 namespace CTRPluginFramework
 {

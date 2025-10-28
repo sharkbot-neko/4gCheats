@@ -10,5 +10,6 @@ namespace CTRPluginFramework
     using StringVector = std::vector<std::string>;
 
     void getBaseAddress(MenuEntry* entry);
+    void AddressViewer(MenuEntry* entry);
 }
 #endif

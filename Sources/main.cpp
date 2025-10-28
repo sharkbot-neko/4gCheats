@@ -121,6 +121,7 @@ exit:
 
         MenuFolder *debug = new MenuFolder("デバッグコード");
         *debug += new MenuEntry("ベースアドレスを取得", nullptr, getBaseAddress);
+        *debug += new MenuEntry("アドレス監視", nullptr, AddressViewer);
         menu += debug;
     }
 

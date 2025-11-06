@@ -2,6 +2,7 @@
 #include "csvc.h"
 #include <CTRPluginFramework.hpp>
 #include "cheats.hpp"
+#include "PatternManager.hpp"
 
 #include <vector>
 
@@ -96,6 +97,10 @@ exit:
         *players += appearance;
 
         menu += players;
+
+        MenuFolder *items = new MenuFolder("アイテム");
+        *items += new MenuEntry("アイテム入手", nullptr, AddItems, "クエスト中のみ使用できます。");
+        menu += items;
 
         MenuFolder *quests = new MenuFolder("クエスト");
         *quests += new MenuEntry("壁抜け", WallBreak, "壁抜けをします。\n↑オン ↓オフ");

@@ -13,6 +13,7 @@
 #include "Cheats/Groups.hpp"
 #include "Cheats/Players.hpp"
 #include "Cheats/Quests.hpp"
+#include "Cheats/Items.hpp"
 
 namespace CTRPluginFramework
 {

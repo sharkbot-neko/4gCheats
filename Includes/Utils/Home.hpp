@@ -9,6 +9,7 @@
 class Home {
 public:
     uint32_t GetHomeAddress();
+    bool InHome();
 };
 
 #endif // MYCLASS_HPP

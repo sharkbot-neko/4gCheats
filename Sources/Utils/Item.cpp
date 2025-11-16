@@ -1,6 +1,7 @@
 #include "Utils/Item.hpp"
 
 #include "CallFuncWrapper.hpp"
+#include "Function.hpp"
 
 uint8_t Item::GetNowSelect() {
     u8 value;
@@ -19,5 +20,5 @@ bool Item::IsSelected() {
 }
 
 void Item::AddItem(uint32_t base_address, uint16_t item_id, int count) {
-    CTRPluginFramework::CallFuncWrapper(0x00b561a4)(base_address, item_id, count);
+    Function<void>(0x00b561a4)(base_address, item_id, count);
 }

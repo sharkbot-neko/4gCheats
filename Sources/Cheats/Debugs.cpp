@@ -1,5 +1,6 @@
 #include "Cheats/Debugs.hpp"
 #include "CTRPluginFramework.hpp"
+#include "CallFuncWrapper.hpp"
 
 #include "Utils/Quest.hpp"
 #include "Utils/Home.hpp"
@@ -14,9 +15,39 @@ namespace CTRPluginFramework
         
         MessageBox(Utils::Format(
             "ベースアドレス一覧\n\nクエストのベースアドレス: %x\n拠点のベースアドレス: %x", 
-            quest.GetQuestAddress(),
+            quest.GetBaseAddress(),
             home.GetHomeAddress()
         ))();
+    }
+
+    void drawTextTest(MenuEntry* entry) {
+        char local_68[24] = {0};   // テキストバッファ
+        char auStack_50[4] = {0};  // 補助用（多分カラーテーブルとか）
+        char auStack_48[36] = {0}; // レイアウトバッファ
+        char local_b8[128] = {0};  // テキスト出力領域（0x80バイト）
+
+        // 関数ポインタの定義
+        typedef void (*Func_00100130)(char* out, int fontId, const char* text, void* context);
+        typedef uint (*Func_00bc4000)(const char* in, uint color, char* outBuf, uint maxLen, const char* extra);
+        typedef uint (*Func_00bc40fc)(char* dst, const char* src, uint maxLen);
+        typedef void (*Func_005c15d4)(uint param1, uint param2, uint param3, int param4);
+
+        Func_00100130 makeText = (Func_00100130)0x00100130;
+        Func_00bc4000 layoutText = (Func_00bc4000)0x00bc4000;
+        Func_00bc40fc copyText = (Func_00bc40fc)0x00bc40fc;
+        Func_005c15d4 drawText  = (Func_005c15d4)0x005c15d4;
+
+        // "testNow" という文字列を作る
+        makeText(local_68, 0xF, "testNow", NULL);
+
+        // テキストをレイアウトに変換
+        layoutText(local_68, 0xFFFFFFFF, auStack_48, 0x20, auStack_50);
+
+        // コピーして描画用バッファに入れる
+        copyText(local_b8, auStack_48, 0x80);
+
+        // 実際に描画命令を登録（3Dオブジェクトならparam_3にID）
+        drawText((uint)entry, 0x12345678, 0x70055E9D, (int)auStack_48);
     }
 
     static std::vector<u32> g_addresses;   // 監視対象アドレス

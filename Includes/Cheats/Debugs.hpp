@@ -11,5 +11,6 @@ namespace CTRPluginFramework
 
     void getBaseAddress(MenuEntry* entry);
     void AddressViewer(MenuEntry* entry);
+    void drawTextTest(MenuEntry* entry);
 }
 #endif

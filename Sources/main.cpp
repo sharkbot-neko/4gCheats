@@ -127,14 +127,15 @@ exit:
         MenuFolder *debug = new MenuFolder("デバッグコード");
         *debug += new MenuEntry("ベースアドレスを取得", nullptr, getBaseAddress);
         *debug += new MenuEntry("アドレス監視", nullptr, AddressViewer);
-        // *debug += new MenuEntry("文字描画", nullptr, drawTextTest);
+        // *debug += new MenuEntry("文字描画", drawTextTest);
+        *debug += new MenuEntry("送信するパケットを記録", nullptr, packetRecord);
         menu += debug;
     }
 
     int     main(void)
     {
         PluginMenu *menu = new PluginMenu("MonsterHunter 4G", 1, 0, 0,
-                                            "モンスターハンター4Gのハッキングプラグインです。\n今度はOLD3dsも、New3dsも対応させました。");
+                                            "モンスターハンター4Gのプラグインです。\n今度はOLD3dsも、New3dsも対応させました。");
 
         // Synnchronize the menu with frame event
         menu->SynchronizeWithFrame(true);

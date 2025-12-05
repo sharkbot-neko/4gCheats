@@ -3,6 +3,8 @@
 *.lst
 
 q.c
+draw.c
+load.c
 
 /.vscode
 /.github
@@ -10,3 +12,4 @@ q.c
 /Assets
 
 ECGA.3gx
+OnionFS.3gx

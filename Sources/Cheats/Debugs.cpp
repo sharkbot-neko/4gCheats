@@ -4,8 +4,44 @@
 
 #include "Utils/Quest.hpp"
 #include "Utils/Home.hpp"
+#include "Utils/Network.hpp"
+
+#include "Function.hpp"
 
 using namespace CTRPluginFramework;
+
+Hook record;
+
+extern "C" uint recorder(
+    uint* sessionHandle,   // param_1
+    uint  targetNodeId,    // param_2
+    uint16_t port,         // param_3
+    uint8_t flag1,         // param_4
+    void* buffer,          // param_5
+    int   size,            // param_6
+    uint  settings,        // param_7
+    uint8_t flag2          // param_8
+)
+{
+    OSD::Notify(Utils::Format("Buffer: %x, Size: %x", buffer, size));
+
+    auto &ctx = CTRPluginFramework::HookContext::GetCurrent();
+
+    return ctx.OriginalFunction<
+        uint,                      // TResult
+        uint*, uint, uint16_t,     // Args...
+        uint8_t, void*, int, uint, uint8_t
+    >(
+        sessionHandle,
+        targetNodeId,
+        port,
+        flag1,
+        buffer,
+        size,
+        settings,
+        flag2
+    );
+}
 
 namespace CTRPluginFramework
 {
@@ -21,34 +57,53 @@ namespace CTRPluginFramework
     }
 
     void drawTextTest(MenuEntry* entry) {
-        char local_68[24] = {0};   // テキストバッファ
-        char auStack_50[4] = {0};  // 補助用（多分カラーテーブルとか）
-        char auStack_48[36] = {0}; // レイアウトバッファ
-        char local_b8[128] = {0};  // テキスト出力領域（0x80バイト）
 
-        // 関数ポインタの定義
-        typedef void (*Func_00100130)(char* out, int fontId, const char* text, void* context);
-        typedef uint (*Func_00bc4000)(const char* in, uint color, char* outBuf, uint maxLen, const char* extra);
-        typedef uint (*Func_00bc40fc)(char* dst, const char* src, uint maxLen);
-        typedef void (*Func_005c15d4)(uint param1, uint param2, uint param3, int param4);
+        char local_68[24];   // テキストバッファ
+        int local_6c = 0;
+        char auStack_50[4];  // 補助用（多分カラーテーブルとか）
+        char auStack_48[36]; // レイアウトバッファ
+        char local_b8[128];  // テキスト出力領域（0x80バイト）
+        char auStack_138[16];
 
-        Func_00100130 makeText = (Func_00100130)0x00100130;
-        Func_00bc4000 layoutText = (Func_00bc4000)0x00bc4000;
-        Func_00bc40fc copyText = (Func_00bc40fc)0x00bc40fc;
-        Func_005c15d4 drawText  = (Func_005c15d4)0x005c15d4;
+        uint local_40[5];
 
-        // "testNow" という文字列を作る
-        makeText(local_68, 0xF, "testNow", NULL);
+        Function<void>(0x00bc4000)("testnow", 0xFFFFFFFF, auStack_48, 0x80, auStack_50);
 
-        // テキストをレイアウトに変換
-        layoutText(local_68, 0xFFFFFFFF, auStack_48, 0x20, auStack_50);
+        uint* puVar2 = Function<uint*>(0x00bf4df8)(0x08242760, 0x0FFFDA90, 0x0FFFDA90);
 
-        // コピーして描画用バッファに入れる
-        copyText(local_b8, auStack_48, 0x80);
+        Function<void>(0x00bc40fc)(local_b8, auStack_48, 0x80, 0x0);
 
-        // 実際に描画命令を登録（3Dオブジェクトならparam_3にID）
-        drawText((uint)entry, 0x12345678, 0x70055E9D, (int)auStack_48);
+        Function<void>(0x00acdd50)(puVar2[1], puVar2, local_b8, 0, auStack_138);
+        // Function<void>(0x005c15d4)(0x00595a8c, 0xEDAC28AC, 0x70055e9d, auStack_50);
     }
+
+    void packetRecord(MenuEntry* entry) {
+        record.InitializeForMitm(0x00551a3c, reinterpret_cast<u32>(recorder));
+
+        std::vector<std::string> options = {
+            "はい（有効）",
+            "いいえ（無効）"
+        };
+
+        Keyboard kb("パケットを記録しますか？", options);
+        int res = kb.Open();
+
+        if (res < 0)
+            return;
+
+        switch (res) {
+            case 0:
+                record.Enable();
+                MessageBox("パケット記録を有効化しました\nOSDを使って表示されます")();
+                break;
+
+            case 1:
+                record.Disable();
+                MessageBox("パケット記録を無効化しました")();
+                break;
+        }
+    }
+
 
     static std::vector<u32> g_addresses;   // 監視対象アドレス
     static bool g_isMonitoring = false;    // 監視ON/OFFフラグ

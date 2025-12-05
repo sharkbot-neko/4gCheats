@@ -12,18 +12,71 @@ using namespace CTRPluginFramework;
 
 Hook record;
 
+#include <CTRPluginFramework.hpp>
+#include <deque>
+using namespace CTRPluginFramework;
+
+static std::deque<std::string> g_Packets;
+static Mutex g_Lock;
+
+static bool DrawPacketsCallback(const Screen &screen)
+{
+    if (!screen.IsTop)return true;
+
+    g_Lock.Lock();
+
+    int y = 10;
+    int index = 0;
+
+    for (auto it = g_Packets.rbegin(); it != g_Packets.rend(); ++it)
+    {
+        if (index++ >= 10)
+            break;
+
+        screen.Draw(*it, 10, y, Color::Yellow);
+        y += 12;
+    }
+
+    g_Lock.Unlock();
+    return true;
+}
+
 extern "C" uint recorder(
-    uint* sessionHandle,   // param_1
-    uint  targetNodeId,    // param_2
-    uint16_t port,         // param_3
-    uint8_t flag1,         // param_4
-    void* buffer,          // param_5
-    int   size,            // param_6
-    uint  settings,        // param_7
-    uint8_t flag2          // param_8
+    uint* sessionHandle,
+    uint  targetNodeId,
+    uint16_t port,
+    uint8_t flag1,
+    void* buffer,
+    int   size,
+    uint  settings,
+    uint8_t flag2
 )
 {
-    OSD::Notify(Utils::Format("Buffer: %x, Size: %x", buffer, size));
+    const int previewLen = (size > 32 ? 32 : size);
+
+    std::string hexPreview;
+    hexPreview.reserve(previewLen * 3);
+
+    u8 *buf = reinterpret_cast<u8*>(buffer);
+    for (int i = 0; i < previewLen; i++)
+        hexPreview += Utils::Format("%02X ", buf[i]);
+
+    std::string line = Utils::Format(
+        "N:%u P:%u Size:%d %s%s",
+        targetNodeId,
+        port,
+        size,
+        hexPreview.c_str(),
+        (size > 32 ? "..." : "")
+    );
+
+    g_Lock.Lock();
+
+    g_Packets.push_back(line);
+    if (g_Packets.size() > 10)
+        g_Packets.pop_front();
+
+    g_Lock.Unlock();
 
     auto &ctx = CTRPluginFramework::HookContext::GetCurrent();
 
@@ -95,11 +148,13 @@ namespace CTRPluginFramework
             case 0:
                 record.Enable();
                 MessageBox("パケット記録を有効化しました\nOSDを使って表示されます")();
+                OSD::Run(DrawPacketsCallback);
                 break;
 
             case 1:
                 record.Disable();
                 MessageBox("パケット記録を無効化しました")();
+                OSD::Stop(DrawPacketsCallback);
                 break;
         }
     }
@@ -152,9 +207,7 @@ namespace CTRPluginFramework
                     if (g_isMonitoring)
                     {
                         OSD::Run(AddressOSDCallback);
-                    }
-                    else
-                    {
+                    } else {
                         OSD::Stop(AddressOSDCallback);
                     }
                     break;

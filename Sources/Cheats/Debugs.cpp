@@ -113,20 +113,26 @@ namespace CTRPluginFramework
 
         char local_68[24];   // テキストバッファ
         int local_6c = 0;
-        char auStack_50[4];  // 補助用（多分カラーテーブルとか）
+        char auStack_50;  // 補助用（多分カラーテーブルとか）
         char auStack_48[36]; // レイアウトバッファ
         char local_b8[128];  // テキスト出力領域（0x80バイト）
         char auStack_138[16];
 
-        uint local_40[5];
+        int local_1d8 [30];
 
-        Function<void>(0x00bc4000)("testnow", 0xFFFFFFFF, auStack_48, 0x80, auStack_50);
+        local_1d8[3] = 6;
+        local_1d8[1] = 0;
+        local_1d8[2] = 4;
 
-        uint* puVar2 = Function<uint*>(0x00bf4df8)(0x08242760, 0x0FFFDA90, 0x0FFFDA90);
+        Function<void>(0x00bc4000)("testnow", 0xFFFFFFFF, auStack_48, 0x80, &auStack_50);
 
-        Function<void>(0x00bc40fc)(local_b8, auStack_48, 0x80, 0x0);
+        uint uver3 = Function<char>(0x005a382c)(0x00f976b4, 0xFFFFFFFF);
 
-        Function<void>(0x00acdd50)(puVar2[1], puVar2, local_b8, 0, auStack_138);
+        uint* puVar2 = Function<uint*>(0x00bf3ebc)(0x01037ea0, uver3, 0x00fec49c);
+
+        Function<void>(0x00acbc48)(local_1d8);
+
+        Function<void>(0x00acdd50)(puVar2, 0x0107c2ec, auStack_48, auStack_50, local_1d8);
         // Function<void>(0x005c15d4)(0x00595a8c, 0xEDAC28AC, 0x70055e9d, auStack_50);
     }
 

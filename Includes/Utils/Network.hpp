@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ITEM_HPP
-#define ITEM_HPP
+#ifndef NETWORK_HPP
+#define NETWORK_HPP
 
 #include <string>
 #include <vector>

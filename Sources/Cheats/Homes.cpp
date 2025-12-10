@@ -12,7 +12,8 @@ namespace CTRPluginFramework
             return;
         };
 
-        PlayerBodyWork* pbw = home.GetPBWStructs();
+        Player* player = home.GetPlayerStructs();
+        PlayerBodyWork* pbw = player->playerbodywork;
         if(Controller::IsKeysDown(DPadUp | X))
         {
             pbw->vec_z += 30; 

@@ -21,6 +21,13 @@ CTRPluginFramework::PlayerBodyWork* Quest::GetPBWStructs() {
     return reinterpret_cast<CTRPluginFramework::PlayerBodyWork*>(addr);
 }
 
+CTRPluginFramework::Player* Quest::GetPlayerStructs() {
+    uint32_t base;
+    CTRPluginFramework::Process::Read32(0x01062ED4, base);
+    uintptr_t addr = static_cast<uintptr_t>(base);
+    return reinterpret_cast<CTRPluginFramework::Player*>(addr);
+}
+
 bool Quest::InQuest() {
     Quest quest;
     uint32_t quest_ = quest.GetQuestAddress();

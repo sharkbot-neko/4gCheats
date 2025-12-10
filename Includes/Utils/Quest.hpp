@@ -13,6 +13,7 @@ class Quest {
 public:
     uint32_t GetQuestAddress();
     CTRPluginFramework::PlayerBodyWork* GetPBWStructs();
+    CTRPluginFramework::Player* GetPlayerStructs();
     bool InQuest();
 
     inline uint32_t GetBaseAddress() {

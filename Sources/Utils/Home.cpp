@@ -16,6 +16,13 @@ CTRPluginFramework::PlayerBodyWork* Home::GetPBWStructs() {
     return reinterpret_cast<CTRPluginFramework::PlayerBodyWork*>(addr);
 }
 
+CTRPluginFramework::Player* Home::GetPlayerStructs() {
+    uint32_t address;
+    CTRPluginFramework::Process::Read32(0x0107CAC0, address);
+    uintptr_t addr = static_cast<uintptr_t>(address);
+    return reinterpret_cast<CTRPluginFramework::Player*>(addr);
+}
+
 bool Home::InHome() {
     Home home;
     uint32_t quest_ = home.GetHomeAddress();

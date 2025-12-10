@@ -11,6 +11,7 @@ class Home {
 public:
     uint32_t GetHomeAddress();
     CTRPluginFramework::PlayerBodyWork* GetPBWStructs();
+    CTRPluginFramework::Player* GetPlayerStructs();
     bool InHome();
 };
 

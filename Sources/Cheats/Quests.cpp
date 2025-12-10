@@ -29,7 +29,8 @@ namespace CTRPluginFramework
         Quest quest;
         if (!quest.InQuest()) return;
 
-        PlayerBodyWork* pbw = quest.GetPBWStructs();
+        Player* player = quest.GetPlayerStructs();
+        PlayerBodyWork* pbw = player->playerbodywork;
         if(Controller::IsKeysDown(DPadUp | X))
         {
             pbw->vec_z += 30; 

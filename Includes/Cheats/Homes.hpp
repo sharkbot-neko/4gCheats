@@ -1,5 +1,5 @@
-#ifndef QUESTS_H
-#define QUESTS_H
+#ifndef HOMES_H
+#define HOMES_H
 
 #include <CTRPluginFramework.hpp>
 #include "Helpers.hpp"
@@ -9,7 +9,6 @@ namespace CTRPluginFramework
 {
     using StringVector = std::vector<std::string>;
 
-    void WallBreak(MenuEntry* entry);
-    void CoordMove(MenuEntry* entry);
+    void CoordMovesHome(MenuEntry* entry);
 }
 #endif

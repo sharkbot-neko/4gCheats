@@ -1,4 +1,5 @@
 #include "Cheats/Quests.hpp"
+#include "Structs/Player.hpp"
 #include "CTRPluginFramework.hpp"
 
 #include "Utils/Quest.hpp"
@@ -21,6 +22,29 @@ namespace CTRPluginFramework
         {
             Process::Write32(0x00B04C34, 0x00000000);
             OSD::Notify("WallBreak Disabled!");
+        }
+    }
+
+    void CoordMove(MenuEntry* entry) {
+        Quest quest;
+        if (!quest.InQuest()) return;
+
+        PlayerBodyWork* pbw = quest.GetPBWStructs();
+        if(Controller::IsKeysDown(DPadUp | X))
+        {
+            pbw->vec_z += 30; 
+        }
+        if(Controller::IsKeysDown(DPadDown | X))
+        {
+            pbw->vec_z -= 30;
+        }
+        if(Controller::IsKeysDown(DPadRight | X))
+        {
+            pbw->vec_x += 30; 
+        }
+        if(Controller::IsKeysDown(DPadLeft | X))
+        {
+            pbw->vec_x -= 30;
         }
     }
 }

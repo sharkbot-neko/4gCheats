@@ -14,6 +14,7 @@
 #include "Cheats/Players.hpp"
 #include "Cheats/Quests.hpp"
 #include "Cheats/Items.hpp"
+#include "Cheats/Homes.hpp"
 
 namespace CTRPluginFramework
 {

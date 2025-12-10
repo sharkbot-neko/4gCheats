@@ -104,7 +104,12 @@ exit:
 
         MenuFolder *quests = new MenuFolder("クエスト");
         *quests += new MenuEntry("壁抜け", WallBreak, "壁抜けをします。\n↑オン ↓オフ");
+        *quests += new MenuEntry("クエストでの座標移動", CoordMove, "Xキーと十字キーで座標移動します。");
         menu += quests;
+
+        MenuFolder *homes = new MenuFolder("拠点");
+        *homes += new MenuEntry("拠点での座標移動", CoordMovesHome, "Xキーと十字キーで座標移動します。");
+        menu += homes;
 
         MenuFolder *groups = new MenuFolder("集会所");
         *groups += new MenuEntry("集会所参加制限", AntiJoin, "集会所に参加できなくします。\n集会所オーナーが使用してください。\n今のところオフはできません。");

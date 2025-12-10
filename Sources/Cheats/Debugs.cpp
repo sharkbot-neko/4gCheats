@@ -124,15 +124,25 @@ namespace CTRPluginFramework
         local_1d8[1] = 0;
         local_1d8[2] = 4;
 
-        Function<void>(0x00bc4000)("testnow", 0xFFFFFFFF, auStack_48, 0x80, &auStack_50);
+        Function<void>(0x00bc4000)("testnow", 0xFFFFFFFF, local_b8, 0x80, &auStack_50);
 
-        uint uver3 = Function<char>(0x005a382c)(0x00f976b4, 0xFFFFFFFF);
+        struct Data01037ea0 {
+            uint32_t value;
+            uint8_t flags[4];
+        };
 
-        uint* puVar2 = Function<uint*>(0x00bf3ebc)(0x01037ea0, uver3, 0x00fec49c);
+        Data01037ea0 DAT_01037ea0 = {
+            0x00000000,
+            {0xFF, 0xFF, 0xFF, 0xFF}
+        };
 
-        Function<void>(0x00acbc48)(local_1d8);
+        
 
-        Function<void>(0x00acdd50)(puVar2, 0x0107c2ec, auStack_48, auStack_50, local_1d8);
+        uint* puver2 = Function<uint*>(0x00bf4df8)(DAT_01037ea0, 0xEDAC28AC);
+
+        // Function<void>(0x00acbc48)(local_1d8);
+
+        Function<void>(0x00acdd50)(puver2[1], *puver2, local_b8, 0, auStack_138);
         // Function<void>(0x005c15d4)(0x00595a8c, 0xEDAC28AC, 0x70055e9d, auStack_50);
     }
 

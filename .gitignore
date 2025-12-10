@@ -5,6 +5,7 @@
 q.c
 draw.c
 load.c
+test.c
 
 /.vscode
 /.github

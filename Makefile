@@ -13,7 +13,7 @@ TARGET		:= 	$(notdir $(CURDIR))
 PLGINFO 	:= 	CTRPluginFramework.plgInfo
 
 BUILD		:= 	Build
-INCLUDES	:= 	Includes Includes/Utils Includes/Cheats
+INCLUDES	:= 	Includes Includes/Utils Includes/Cheats Includes/Structs
 SOURCES 	:= 	Sources Sources/Utils Sources/Cheats
 
 #---------------------------------------------------------------------------------

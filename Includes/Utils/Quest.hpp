@@ -2,6 +2,7 @@
 #ifndef QUEST_HPP
 #define QUEST_HPP
 
+#include "Structs/Player.hpp"
 #include <string>
 #include <vector>
 #include <iostream>
@@ -11,6 +12,7 @@
 class Quest {
 public:
     uint32_t GetQuestAddress();
+    CTRPluginFramework::PlayerBodyWork* GetPBWStructs();
     bool InQuest();
 
     inline uint32_t GetBaseAddress() {

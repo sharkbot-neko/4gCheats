@@ -142,17 +142,18 @@ exit:
         PluginMenu *menu = new PluginMenu("MonsterHunter 4G", 1, 0, 0,
                                             "モンスターハンター4Gのプラグインです。\n今度はOLD3dsも、New3dsも対応させました。");
 
-        // Synnchronize the menu with frame event
         menu->SynchronizeWithFrame(true);
 
         menu->ShowWelcomeMessage(false);
 
+        menu->Callback(ProcessFrameCallback);
+
+        OSD::Run(OverlayCallback);
+
         OSD::Notify("Welcome to MonsterHunter 4G Plugin!");
 
-        // Init our menu entries & folders
         InitMenu(*menu);
 
-        // Launch menu and mainloop
         menu->Run();
 
         delete menu;

@@ -16,9 +16,16 @@
 #include "Cheats/Items.hpp"
 #include "Cheats/Homes.hpp"
 
+#include "Structs/Player.hpp"
+#include "Utils/Home.hpp"
+#include "Utils/Quest.hpp"
+
 namespace CTRPluginFramework
 {
     using StringVector = std::vector<std::string>;
 
+    void ProcessFrameCallback();
+    bool DrawMiniMenu(const Screen &screen);
+    bool OverlayCallback(const Screen &scr);
 }
 #endif

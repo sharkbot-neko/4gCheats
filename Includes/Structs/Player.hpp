@@ -16,7 +16,11 @@ namespace CTRPluginFramework {
     } PlayerBodyWork;
 
     typedef struct Player {
-        char pad_0000[0x0E30];
+        char pad_0000[0x60];
+        float playerWidthX;
+        float playerWidthY;
+        float playerWidthZ;
+        char pad_0001[0xDC4];
         PlayerBodyWork* playerbodywork;
     } Player;
 }

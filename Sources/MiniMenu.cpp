@@ -1,5 +1,7 @@
-// ====== MiniMenu.cpp ======
+// MiniMenu
 #include "cheats.hpp"
+#include "Address.hpp"
+
 #include <algorithm>
 
 bool menuOpen = false;
@@ -10,7 +12,8 @@ enum ValueType {
     NONE,
     BOOL,
     FLOAT,
-    SPEEDFLOAT
+    SPEEDFLOAT,
+    NUMBER
 };
 
 struct MenuItem {
@@ -20,38 +23,42 @@ struct MenuItem {
 
     float *floatValue;
     bool *boolValue;
+    int *numberValue;
 
     ValueType valueType;
 };
 
 // ===== 設定値 =====
-bool in_quest;
-bool change_coord;
-float player_coord_x;
-float player_coord_y;
-float player_coord_z;
+bool in_quest, change_coord;
+float player_coord_x, player_coord_y, player_coord_z;
 
 bool change_width;
-float player_width_x;
-float player_width_y;
-float player_width_z;
+float player_width_x, player_width_y, player_width_z;
+
+bool change_money;
+int player_money;
 
 std::vector<MenuItem> rootMenu = {
     {"Players", true, {
-        {"In Quest", false, {}, nullptr, &in_quest, BOOL},
-        {"Change Coord", false, {}, nullptr, &change_coord, BOOL},
-        {"PlayerCoord (X)",  false, {}, &player_coord_x, nullptr, SPEEDFLOAT},
-        {"PlayerCoord (Y)", false, {}, &player_coord_y, nullptr, SPEEDFLOAT},
-        {"PlayerCoord (Z)", false, {}, &player_coord_z, nullptr, SPEEDFLOAT},
+        {"Change Money", false, {}, nullptr, &change_money, nullptr, BOOL},
+        {"PlayerMoney", false, {}, nullptr, nullptr, &player_money, NUMBER},
 
-        {"================", false, {}, nullptr, nullptr, NONE},
+        {"================", false, {}, nullptr, nullptr, nullptr, NONE},
 
-        {"Change Width", false, {}, nullptr, &change_width, BOOL},
-        {"PlayerWidth (X)",  false, {}, &player_width_x, nullptr, FLOAT},
-        {"PlayerWidth (Y)", false, {}, &player_width_y, nullptr, FLOAT},
-        {"PlayerWidth (Z)", false, {}, &player_width_z, nullptr, FLOAT},
+        {"In Quest", false, {}, nullptr, &in_quest, nullptr, BOOL},
+        {"Change Coord", false, {}, nullptr, &change_coord, nullptr, BOOL},
+        {"PlayerCoord (X)",  false, {}, &player_coord_x, nullptr, nullptr, SPEEDFLOAT},
+        {"PlayerCoord (Y)", false, {}, &player_coord_y, nullptr, nullptr, SPEEDFLOAT},
+        {"PlayerCoord (Z)", false, {}, &player_coord_z, nullptr, nullptr, SPEEDFLOAT},
+
+        {"================", false, {}, nullptr, nullptr, nullptr, NONE},
+
+        {"Change Width", false, {}, nullptr, &change_width, nullptr, BOOL},
+        {"PlayerWidth (X)",  false, {}, &player_width_x, nullptr, nullptr, FLOAT},
+        {"PlayerWidth (Y)", false, {}, &player_width_y, nullptr, nullptr, FLOAT},
+        {"PlayerWidth (Z)", false, {}, &player_width_z, nullptr, nullptr, FLOAT},
     }},
-    {"Exit", false, {}, nullptr, nullptr, NONE}
+    {"Exit", false, {}, nullptr, nullptr, nullptr, NONE}
 };
 
 std::vector<MenuItem>* currentMenu = &rootMenu;
@@ -61,7 +68,7 @@ namespace CTRPluginFramework
 {
     const int x = 10;
     const int y = 20;
-    const int width = 180;
+    const int width = 200;
     const int itemHeight = 18;
     const int visibleItems = 10;
 
@@ -84,12 +91,17 @@ namespace CTRPluginFramework
                 break;
 
             case FLOAT:
-                txt = "[" + FloatToShort(*item.floatValue) + "]";
-                break;
-
             case SPEEDFLOAT:
                 txt = "[" + FloatToShort(*item.floatValue) + "]";
                 break;
+
+            case NUMBER:
+            {
+                char buf[16];
+                snprintf(buf, sizeof(buf), "%d", *item.numberValue);
+                txt = std::string("[") + buf + "]";
+            }
+            break;
 
             default:
                 return;
@@ -140,17 +152,6 @@ namespace CTRPluginFramework
             DrawRightValue(screen, item, x, itemY);
         }
 
-        if (menuSize > visibleItems)
-        {
-            float ratio = (float)visibleItems / menuSize;
-            int barHeight = (int)(ratio * (drawCount * itemHeight));
-            int barY = y + (scrollOffset * itemHeight * ratio);
-
-            screen.DrawRect(x + width - 6, barY, x + width - 2,
-                            barY + barHeight,
-                            Color(200, 200, 200, 180));
-        }
-
         return true;
     }
 
@@ -162,7 +163,7 @@ namespace CTRPluginFramework
         return false;
     }
 
-    void ProcessCheats()
+    void ProcessPlayer()
     {
         Quest quest;
         Home home;
@@ -204,8 +205,19 @@ namespace CTRPluginFramework
                 player_width_z = p->playerWidthZ;
             }
         }
-    }
 
+        // お金
+        {
+            if (change_money) {
+                Process::Write32(MoneyAddress, player_money);
+            } else {
+                u32 cur_money;
+                Process::Read32(MoneyAddress, cur_money);
+
+                player_money = cur_money;
+            }
+        }
+    }
 
     void ProcessFrameCallback()
     {
@@ -213,7 +225,7 @@ namespace CTRPluginFramework
         Controller ctr;
         // ctr.Update();
 
-        ProcessCheats();
+        ProcessPlayer();
 
         if (ctr.IsKeysPressed(Key::Start))
             menuOpen = !menuOpen;
@@ -254,6 +266,14 @@ namespace CTRPluginFramework
 
                 if (ctr.IsKeyDown(Key::DPadRight))
                     *item.floatValue += 1.0f;
+            }
+            else if (item.valueType == NUMBER)
+            {
+                if (ctr.IsKeyDown(Key::DPadLeft))
+                    (*item.numberValue) -= 1;
+
+                if (ctr.IsKeyDown(Key::DPadRight))
+                    (*item.numberValue) += 1;
             }
         }
 

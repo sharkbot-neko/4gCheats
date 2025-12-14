@@ -24,6 +24,7 @@ struct MenuItem {
     float *floatValue;
     bool *boolValue;
     int *numberValue;
+    std::vector<std::string> *listValue;
 
     ValueType valueType;
 };
@@ -38,27 +39,33 @@ float player_width_x, player_width_y, player_width_z;
 bool change_money;
 int player_money;
 
+bool max_story;
+
 std::vector<MenuItem> rootMenu = {
     {"Players", true, {
-        {"Change Money", false, {}, nullptr, &change_money, nullptr, BOOL},
-        {"PlayerMoney", false, {}, nullptr, nullptr, &player_money, NUMBER},
+        {"Change Money", false, {}, nullptr, &change_money, nullptr, nullptr, BOOL},
+        {"PlayerMoney", false, {}, nullptr, nullptr, &player_money, nullptr, NUMBER},
 
-        {"================", false, {}, nullptr, nullptr, nullptr, NONE},
+        {"================", false, {}, nullptr, nullptr, nullptr, nullptr, NONE},
 
-        {"In Quest", false, {}, nullptr, &in_quest, nullptr, BOOL},
-        {"Change Coord", false, {}, nullptr, &change_coord, nullptr, BOOL},
-        {"PlayerCoord (X)",  false, {}, &player_coord_x, nullptr, nullptr, SPEEDFLOAT},
-        {"PlayerCoord (Y)", false, {}, &player_coord_y, nullptr, nullptr, SPEEDFLOAT},
-        {"PlayerCoord (Z)", false, {}, &player_coord_z, nullptr, nullptr, SPEEDFLOAT},
+        {"In Quest", false, {}, nullptr, &in_quest, nullptr, nullptr, BOOL},
+        {"Change Coord", false, {}, nullptr, &change_coord, nullptr, nullptr, BOOL},
+        {"PlayerCoord (X)",  false, {}, &player_coord_x, nullptr, nullptr, nullptr, SPEEDFLOAT},
+        {"PlayerCoord (Y)", false, {}, &player_coord_y, nullptr, nullptr, nullptr, SPEEDFLOAT},
+        {"PlayerCoord (Z)", false, {}, &player_coord_z, nullptr, nullptr, nullptr, SPEEDFLOAT},
 
-        {"================", false, {}, nullptr, nullptr, nullptr, NONE},
+        {"================", false, {}, nullptr, nullptr, nullptr, nullptr, NONE},
 
-        {"Change Width", false, {}, nullptr, &change_width, nullptr, BOOL},
-        {"PlayerWidth (X)",  false, {}, &player_width_x, nullptr, nullptr, FLOAT},
-        {"PlayerWidth (Y)", false, {}, &player_width_y, nullptr, nullptr, FLOAT},
-        {"PlayerWidth (Z)", false, {}, &player_width_z, nullptr, nullptr, FLOAT},
+        {"Change Width", false, {}, nullptr, &change_width, nullptr, nullptr, BOOL},
+        {"PlayerWidth (X)",  false, {}, &player_width_x, nullptr, nullptr, nullptr, FLOAT},
+        {"PlayerWidth (Y)", false, {}, &player_width_y, nullptr, nullptr, nullptr, FLOAT},
+        {"PlayerWidth (Z)", false, {}, &player_width_z, nullptr, nullptr, nullptr, FLOAT},
+
+        {"================", false, {}, nullptr, nullptr, nullptr, nullptr, NONE},
+
+        {"Complete stories", false, {}, nullptr, &max_story, nullptr, nullptr, BOOL},
     }},
-    {"Exit", false, {}, nullptr, nullptr, nullptr, NONE}
+    {"Exit", false, {}, nullptr, nullptr, nullptr, nullptr,  NONE}
 };
 
 std::vector<MenuItem>* currentMenu = &rootMenu;
@@ -215,6 +222,18 @@ namespace CTRPluginFramework
                 Process::Read32(MoneyAddress, cur_money);
 
                 player_money = cur_money;
+            }
+        }
+
+        // ストーリー全クリア
+        {
+            if (max_story) {
+                Process::Write32(0x0062B8B4, 0xE3A00001);
+                Process::Write32(0x00C00344, 0xE3A00001);
+                Process::Write32(0x00C01300, 0xE3A00001);
+                Process::Write32(0x00C0167C, 0xE3A00001);
+                Process::Write32(0x00C02AC4, 0xE3A00001);
+                Process::Write32(0x00C072B8, 0xE3A00001);
             }
         }
     }

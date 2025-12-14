@@ -49,6 +49,9 @@ std::vector<MenuItem> rootMenu = {
         {"================", false, {}, nullptr, nullptr, nullptr, nullptr, NONE},
 
         {"In Quest", false, {}, nullptr, &in_quest, nullptr, nullptr, BOOL},
+
+        {"================", false, {}, nullptr, nullptr, nullptr, nullptr, NONE},
+
         {"Change Coord", false, {}, nullptr, &change_coord, nullptr, nullptr, BOOL},
         {"PlayerCoord (X)",  false, {}, &player_coord_x, nullptr, nullptr, nullptr, SPEEDFLOAT},
         {"PlayerCoord (Y)", false, {}, &player_coord_y, nullptr, nullptr, nullptr, SPEEDFLOAT},

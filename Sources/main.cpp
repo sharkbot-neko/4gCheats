@@ -88,13 +88,7 @@ exit:
         *players += new MenuEntry("所持金変更", nullptr, MoneyChange);
         *players += new MenuEntry("所持金使用時に確認", nullptr, MoneyWhenUsing);
         *players += new MenuEntry("性別変更", nullptr, GenderChnage);
-        *players += new MenuEntry("スピード変更", SpeedHack);
-
-        MenuFolder *appearance = new MenuFolder("見た目");
-
-        *appearance += new MenuEntry("プレイヤーを平らにするか", PlayerFlatten);
-
-        *players += appearance;
+        // *players += new MenuEntry("スピード変更", SpeedHack);
 
         menu += players;
 

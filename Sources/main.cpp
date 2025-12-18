@@ -99,6 +99,7 @@ exit:
         MenuFolder *quests = new MenuFolder("クエスト");
         *quests += new MenuEntry("壁抜け", WallBreak, "壁抜けをします。\n↑オン ↓オフ");
         *quests += new MenuEntry("クエストでの座標移動", CoordMove, "Xキーと十字キーで座標移動します。");
+        // *quests += new MenuEntry("BunnyHop", BunnyHop, "BHopをします。");
         menu += quests;
 
         MenuFolder *homes = new MenuFolder("拠点");

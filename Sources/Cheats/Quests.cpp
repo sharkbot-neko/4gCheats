@@ -48,4 +48,17 @@ namespace CTRPluginFramework
             pbw->vec_x -= 30;
         }
     }
+
+    void BunnyHop(MenuEntry* entry) {
+        Quest quest;
+        if (!quest.InQuest()) return;
+
+        Player* player = quest.GetPlayerStructs();
+        PlayerBodyWork* pbw = player->playerbodywork;
+
+        if (Controller::IsKeyDown(Key::CPad))
+        {
+            pbw->vec_y += 4.5f;
+        }
+    }
 }

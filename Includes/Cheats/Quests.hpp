@@ -11,5 +11,7 @@ namespace CTRPluginFramework
 
     void WallBreak(MenuEntry* entry);
     void CoordMove(MenuEntry* entry);
+
+    void BunnyHop(MenuEntry* entry);
 }
 #endif

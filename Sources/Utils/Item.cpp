@@ -19,10 +19,17 @@ bool Item::IsSelected() {
     }
 }
 
+uint32_t Item::GetItemOffset() {
+    uint32_t value;
+    CTRPluginFramework::Process::Read32(0x00fb02a8, value);
+    return value;
+}
+
 uint Item::FindItemIndex(uint32_t base_address, uint32_t item_id) {
     return Function<uint>(0x00af96f0)(base_address, item_id);
 }
 
 void Item::AddItem(uint32_t base_address, uint16_t item_id, int count) {
-    Function<void>(0x00b561a4)(base_address, item_id, count);
+    uint32_t address = GetItemOffset();
+    Function<void>(0x00c021cc)(address, item_id, count,*(int *)(base_address + 0xe30) + 0x256,0x20,1,0);
 }

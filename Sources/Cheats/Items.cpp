@@ -41,24 +41,34 @@ namespace CTRPluginFramework
     }
 
     void AddItems(MenuEntry* entry) {
-        Quest quest;
+        Item item;
 
-        if (!quest.InQuest()) {
-            MessageBox("クエスト中でのみ使用できます。")();
-            return;
-        };
-
-        u32 itemID;
+        u16 itemID;
         u32 count;
         Keyboard itemid_key("アイテムID");
         Keyboard count_key("カウント");
         count_key.IsHexadecimal(false);
 
-        if (itemid_key.Open(itemID) == 0) {
-            if (count_key.Open(count) == 0) {
-                Item item;
-                item.AddItem(quest.GetQuestAddress(), itemID, count);
+        Home home;
+        if (home.InHome()) {
+            return;
+            // if (itemid_key.Open(itemID) == 0) {
+            //     if (count_key.Open(count) == 0) {
+            //         item.AddItem(home.GetHomeAddress(), itemID, count);
+            //     }
+            // }
+            // return;
+        };
+
+        Quest quest;
+        if (quest.InQuest()) {
+            if (itemid_key.Open(itemID) == 0) {
+                if (count_key.Open(count) == 0) {
+                    item.AddItem(quest.GetBaseAddress(), itemID, count);
+                }
             }
-        }
+            return;
+        };
+
     }
 }

@@ -19,6 +19,10 @@ bool Item::IsSelected() {
     }
 }
 
+uint Item::FindItemIndex(uint32_t base_address, uint32_t item_id) {
+    return Function<uint>(0x00af96f0)(base_address, item_id);
+}
+
 void Item::AddItem(uint32_t base_address, uint16_t item_id, int count) {
     Function<void>(0x00b561a4)(base_address, item_id, count);
 }

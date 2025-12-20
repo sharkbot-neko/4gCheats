@@ -94,6 +94,7 @@ exit:
 
         MenuFolder *items = new MenuFolder("アイテム");
         *items += new MenuEntry("アイテム入手", nullptr, AddItems, "クエスト中のみ使用できます。");
+        *items += new MenuEntry("そのアイテムを持っているか", nullptr, IsHaveItem);
         menu += items;
 
         MenuFolder *quests = new MenuFolder("クエスト");

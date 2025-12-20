@@ -10,5 +10,6 @@ namespace CTRPluginFramework
     using StringVector = std::vector<std::string>;
 
     void AddItems(MenuEntry* entry);
+    void IsHaveItem(MenuEntry* entry);
 }
 #endif

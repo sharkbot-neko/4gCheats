@@ -85,6 +85,7 @@ exit:
         });*/
 
         MenuFolder *players = new MenuFolder("プレイヤー");
+        *players += new MenuEntry("プレイヤー名変更", nullptr, NameChange);
         *players += new MenuEntry("所持金変更", nullptr, MoneyChange);
         *players += new MenuEntry("所持金使用時に確認", nullptr, MoneyWhenUsing);
         *players += new MenuEntry("性別変更", nullptr, GenderChnage);

@@ -15,5 +15,7 @@ namespace CTRPluginFramework
     void GenderChnage(MenuEntry* entry);
     
     void SpeedHack(MenuEntry* entry);
+
+    void NameChange(MenuEntry* entry);
 }
 #endif

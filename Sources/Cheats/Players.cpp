@@ -1,11 +1,23 @@
 #include "Cheats/Players.hpp"
 #include "CTRPluginFramework.hpp"
+#include "Utils/Player.hpp"
 
 using namespace CTRPluginFramework;
 
 static Hook moneyHook;
 
 namespace CTRPluginFramework {
+
+    void NameChange(MenuEntry* entry) {
+        std::string name;
+
+        Keyboard keyboard("名前を入力");
+    
+        if (keyboard.Open(name) == 0) {
+            Player player;
+            player.SetPlayerName(name);
+        }
+    }
 
     void MoneyChange(MenuEntry* entry) {
         u32 count;

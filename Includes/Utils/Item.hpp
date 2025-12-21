@@ -12,7 +12,7 @@ public:
     bool IsSelected();
     uint32_t GetItemOffset();
     uint FindItemIndex(uint32_t base_address, uint32_t item_id);
-    void AddItem(uint32_t base_address, uint16_t item_id, int count);
+    void AddItem(uint32_t base_address, uint32_t item_id, int count, bool is_in_quest);
 };
 
 #endif

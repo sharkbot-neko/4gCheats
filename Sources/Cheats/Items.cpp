@@ -51,20 +51,19 @@ namespace CTRPluginFramework
 
         Home home;
         if (home.InHome()) {
+            if (itemid_key.Open(itemID) == 0) {
+                if (count_key.Open(count) == 0) {
+                    item.AddItem(home.GetHomeAddress(), itemID, count, false);
+                }
+            }
             return;
-            // if (itemid_key.Open(itemID) == 0) {
-            //     if (count_key.Open(count) == 0) {
-            //         item.AddItem(home.GetHomeAddress(), itemID, count);
-            //     }
-            // }
-            // return;
         };
 
         Quest quest;
         if (quest.InQuest()) {
             if (itemid_key.Open(itemID) == 0) {
                 if (count_key.Open(count) == 0) {
-                    item.AddItem(quest.GetBaseAddress(), itemID, count);
+                    item.AddItem(quest.GetBaseAddress(), itemID, count, true);
                 }
             }
             return;

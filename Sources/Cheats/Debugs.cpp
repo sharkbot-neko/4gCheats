@@ -5,6 +5,7 @@
 #include "Utils/Quest.hpp"
 #include "Utils/Home.hpp"
 #include "Utils/Network.hpp"
+#include "Utils/Service.hpp"
 
 #include "Function.hpp"
 
@@ -171,6 +172,26 @@ namespace CTRPluginFramework
                 record.Disable();
                 MessageBox("パケット記録を無効化しました")();
                 OSD::Stop(DrawPacketsCallback);
+                break;
+        }
+    }
+
+    void getServiceHandle(MenuEntry* entry) {
+        std::vector<std::string> options = {
+            "hid:USER"
+        };
+
+        Keyboard kb("どのサービスを取得しますか？", options);
+        int res = kb.Open();
+
+        Service service;
+
+        if (res < 0)
+            return;
+
+        switch (res) {
+            case 0:
+                MessageBox(Utils::Format("%x", service.GetHidServiceHandle()))();
                 break;
         }
     }

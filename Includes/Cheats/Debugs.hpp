@@ -13,5 +13,6 @@ namespace CTRPluginFramework
     void AddressViewer(MenuEntry* entry);
     void drawTextTest(MenuEntry* entry);
     void packetRecord(MenuEntry* entry);
+    void getServiceHandle(MenuEntry* entry);
 }
 #endif
